@@ -14,7 +14,7 @@ source:
     - CMakeLists.patch  # [win and vc<14]
 
 build:
-  number: 2
+  number: 3
   # Missing CDT packages on s390x and ppc64le
   skip: True  # [s390x or ppc64le]
   run_exports:

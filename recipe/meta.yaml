@@ -15,6 +15,8 @@ source:
 
 build:
   number: 2
+  # Missing CDT packages on s390x and ppc64le
+  skip: True  # [s390x or ppc64le]
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
 

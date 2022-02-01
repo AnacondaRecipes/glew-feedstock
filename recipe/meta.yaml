@@ -54,12 +54,8 @@ requirements:
     - {{ cdt('alsa-lib') }}              # [linux]
   host:
     - libglu                         # [linux]
-    - xorg-libx11                    # [linux]
-    - xorg-libxext                   # [linux]
   run:
     - libglu                         # [linux]
-    - xorg-libx11                    # [linux]
-    - xorg-libxext                   # [linux]
 
 # Tests require visual context not present on CIs
 test:

@@ -16,7 +16,7 @@ source:
 build:
   number: 3
   # Missing CDT packages on s390x and ppc64le
-  skip: True  # [s390x or ppc64le]
+  skip: True  # [win or s390x or ppc64le]
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
 
@@ -27,6 +27,7 @@ requirements:
     - cmake
     - make                               # [unix]
     - pkg-config                         # [unix]
+    - patch                              # [not win]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]

@@ -19,6 +19,9 @@ build:
   skip: True  # [win or s390x or ppc64le]
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
+  missing_dso_whitelist:
+    - '**/libc.so.*'
+    - '**/libGLEW.*'
 
 requirements:
   build:

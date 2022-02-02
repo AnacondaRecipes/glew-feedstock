@@ -71,8 +71,10 @@ test:
     - cmake
     - make                           # [unix]
     - {{ cdt('libselinux') }}        # [linux]
+    - {{ cdt('libxau') }}            # [linux]
     - {{ cdt('libxcb') }}            # [linux]
     - {{ cdt('libxdamage') }}        # [linux]
+    - {{ cdt('libxext') }}           # [linux]
     - {{ cdt('libxfixes') }}         # [linux]
     - {{ cdt('libxxf86vm') }}        # [linux]
     - {{ cdt('mesa-libgl-devel') }}  # [linux]

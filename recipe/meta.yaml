@@ -28,7 +28,6 @@ requirements:
     - cmake
     - make                               # [unix]
     - pkg-config                         # [unix]
-    - patch                              # [not win]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]

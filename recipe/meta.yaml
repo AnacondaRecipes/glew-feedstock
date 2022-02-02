@@ -83,7 +83,6 @@ test:
 about:
   home: http://glew.sourceforge.net/
   license: BSD-3-Clause
-  license_family: BSD
   license_file: LICENSE.txt
   summary: "The OpenGL Extension Wrangler Library"
   description: |

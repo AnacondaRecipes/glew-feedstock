@@ -10,13 +10,16 @@ source:
   fn: {{ name }}-{{ version }}.tgz
   url: {{ dev_url }}/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tgz
   sha256: 04de91e7e6763039bc11940095cd9c7f880baba82196a7765f727ac05a993c95
-  patches:
-    - CMakeLists.patch  # [win and vc<14]
 
 build:
-  number: 2
+  number: 3
+  # Missing CDT packages on s390x and ppc64le
+  skip: True  # [s390x or ppc64le]
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
+  missing_dso_whitelist:
+    - '**/libc.so.*'
+    - '**/libGLEW.*'
 
 requirements:
   build:
@@ -54,12 +57,8 @@ requirements:
     - {{ cdt('alsa-lib') }}              # [linux]
   host:
     - libglu                         # [linux]
-    - xorg-libx11                    # [linux]
-    - xorg-libxext                   # [linux]
   run:
     - libglu                         # [linux]
-    - xorg-libx11                    # [linux]
-    - xorg-libxext                   # [linux]
 
 # Tests require visual context not present on CIs
 test:
@@ -69,8 +68,10 @@ test:
     - cmake
     - make                           # [unix]
     - {{ cdt('libselinux') }}        # [linux]
+    - {{ cdt('libxau') }}            # [linux]
     - {{ cdt('libxcb') }}            # [linux]
     - {{ cdt('libxdamage') }}        # [linux]
+    - {{ cdt('libxext') }}           # [linux]
     - {{ cdt('libxfixes') }}         # [linux]
     - {{ cdt('libxxf86vm') }}        # [linux]
     - {{ cdt('mesa-libgl-devel') }}  # [linux]

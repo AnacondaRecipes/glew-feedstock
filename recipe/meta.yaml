@@ -80,6 +80,8 @@ test:
   commands:
     - test -f $PREFIX/include/GL/glew.h            # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
+    - ./run_test.sh  # [unix]
+    - run_test.bat   # [win]
 
 about:
   home: https://glew.sourceforge.net/
@@ -96,6 +98,9 @@ about:
   dev_url: {{ dev_url }}
 
 extra:
+  skip-lints:
+    - host_section_needs_exact_pinnings  # no need to pin here for now
+    - has_run_test_and_commands          # manually invoked ... so ok
   recipe-maintainers:
     - dschreij
     - edisongustavo

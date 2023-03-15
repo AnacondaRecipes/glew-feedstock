@@ -27,7 +27,7 @@ requirements:
     - {{ compiler("cxx") }}
     - cmake
     - make                               # [unix]
-    - ninja  # [win]
+    - ninja                              # [win]
     - pkg-config
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
@@ -82,8 +82,9 @@ test:
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
 
 about:
-  home: http://glew.sourceforge.net/
+  home: https://glew.sourceforge.net/
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE.txt
   summary: "The OpenGL Extension Wrangler Library"
   description: |
@@ -91,7 +92,7 @@ about:
     extension loading library. GLEW provides efficient run-time mechanisms for determining
     which OpenGL extensions are supported on the target platform. OpenGL core and extension
     functionality is exposed in a single header file.
-  doc_url: http://glew.sourceforge.net/basic.html
+  doc_url: https://glew.sourceforge.net/basic.html
   dev_url: {{ dev_url }}
 
 extra:

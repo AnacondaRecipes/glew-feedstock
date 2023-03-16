@@ -5,7 +5,13 @@ if [ "$(uname)" == "Linux" ]; then
 fi
 
 cd build
-cmake ${CMAKE_ARGS} -DCMAKE_INSTALL_PREFIX:PATH="${PREFIX}" -DCMAKE_INSTALL_LIBDIR="lib" ./cmake
+cmake ${CMAKE_ARGS} \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_PREFIX_PATH="${PREFIX}" \
+   -DCMAKE_INSTALL_PREFIX:PATH="${PREFIX}" \
+   -DCMAKE_INSTALL_LIBDIR="lib" \
+   ./cmake
+
 make -j${CPU_COUNT}
 make install
 

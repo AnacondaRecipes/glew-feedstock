@@ -12,7 +12,7 @@ source:
   sha256: 04de91e7e6763039bc11940095cd9c7f880baba82196a7765f727ac05a993c95
 
 build:
-  number: 3
+  number: 4
   # Missing CDT packages on s390x and ppc64le
   skip: True  # [s390x or ppc64le]
   run_exports:
@@ -27,7 +27,8 @@ requirements:
     - {{ compiler("cxx") }}
     - cmake
     - make                               # [unix]
-    - pkg-config                         # [unix]
+    - ninja                              # [win]
+    - pkg-config
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]
@@ -79,10 +80,13 @@ test:
   commands:
     - test -f $PREFIX/include/GL/glew.h            # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
+    - ./run_test.sh  # [unix]
+    - run_test.bat   # [win]
 
 about:
-  home: http://glew.sourceforge.net/
+  home: https://glew.sourceforge.net/
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE.txt
   summary: "The OpenGL Extension Wrangler Library"
   description: |
@@ -90,10 +94,13 @@ about:
     extension loading library. GLEW provides efficient run-time mechanisms for determining
     which OpenGL extensions are supported on the target platform. OpenGL core and extension
     functionality is exposed in a single header file.
-  doc_url: http://glew.sourceforge.net/basic.html
+  doc_url: https://glew.sourceforge.net/basic.html
   dev_url: {{ dev_url }}
 
 extra:
+  skip-lints:
+    - host_section_needs_exact_pinnings  # no need to pin here for now
+    - has_run_test_and_commands          # manually invoked ... so ok
   recipe-maintainers:
     - dschreij
     - edisongustavo

@@ -7,9 +7,6 @@ nmake
 echo try to execute main application
 .\main  || cmd /k "exit /b 0"
 
-dir %PREFIX%\Library\bin
-dir $PREFIX%\bin
-
-visualinfo.exe || cmd /k "exit /b 0"
-glewinfo.exe || cmd /k "exit /b 0"
+%PREFIX%\Library\bin\glewinfo.exe
+cmd /k "exit /b 0"
 

@@ -1,5 +1,5 @@
 {% set name = "glew" %}
-{% set version = "2.1.0" %}
+{% set version = "2.2.0" %}
 {% set dev_url = "https://github.com/nigels-com/glew" %}
 
 package:
@@ -9,10 +9,10 @@ package:
 source:
   fn: {{ name }}-{{ version }}.tgz
   url: {{ dev_url }}/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tgz
-  sha256: 04de91e7e6763039bc11940095cd9c7f880baba82196a7765f727ac05a993c95
+  sha256: d4fc82893cfb00109578d0a1a2337fb8ca335b3ceccf97b97e5cc7f08e4353e1
 
 build:
-  number: 4
+  number: 0
   # Missing CDT packages on s390x and ppc64le
   skip: True  # [s390x or ppc64le]
   run_exports:
@@ -67,6 +67,7 @@ test:
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake
+    - python
     - make                           # [unix]
     - {{ cdt('libselinux') }}        # [linux]
     - {{ cdt('libxau') }}            # [linux]

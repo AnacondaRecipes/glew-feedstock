@@ -1,0 +1,13 @@
+Index: glew-2.2.0/src/glew.c
+===================================================================
+--- glew-2.2.0.orig/src/glew.c
++++ glew-2.2.0/src/glew.c
+@@ -23098,7 +23098,7 @@ const GLubyte * GLEWAPIENTRY glewGetStri
+ 
+ /* ------------------------------------------------------------------------ */
+ 
+-GLboolean glewExperimental = GL_FALSE;
++GLboolean glewExperimental = GL_TRUE;
+ 
+ GLenum GLEWAPIENTRY glewInit (void)
+ {

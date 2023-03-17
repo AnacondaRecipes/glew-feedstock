@@ -10,6 +10,9 @@ source:
   fn: {{ name }}-{{ version }}.tgz
   url: {{ dev_url }}/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tgz
   sha256: d4fc82893cfb00109578d0a1a2337fb8ca335b3ceccf97b97e5cc7f08e4353e1
+  patches:  # [win]
+    # turn on experimental to allow GL 3.x+ (required on modern Windows)
+    - glew_win.patch  # [win]
 
 build:
   number: 0
@@ -29,6 +32,7 @@ requirements:
     - make                               # [unix]
     - ninja                              # [win]
     - pkg-config
+    - m2-patch                           # [win]
     - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
     - {{ cdt('libx11-devel') }}          # [linux]
     - {{ cdt('libxext-devel') }}         # [linux]

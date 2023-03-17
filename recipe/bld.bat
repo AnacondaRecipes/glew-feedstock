@@ -7,6 +7,7 @@ cmake -G "Ninja" ^
     -DCMAKE_INSTALL_PREFIX="%LIBRARY_PREFIX%" ^
     -DCMAKE_INSTALL_LIBDIR="lib" ^
     -DCMAKE_PREFIX_PATH="%LIBRARY_PREFIX%" ^
+    -DBUILD_UTILS=ON ^
     ./cmake
 
 if errorlevel 1 exit 1

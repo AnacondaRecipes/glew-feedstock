@@ -13,7 +13,6 @@ source:
 
 build:
   number: 4
-  # trigger: 0
   # Missing CDT packages on s390x and ppc64le
   skip: True  # [s390x or ppc64le]
   run_exports:

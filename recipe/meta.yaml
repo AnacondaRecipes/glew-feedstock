@@ -15,55 +15,71 @@ source:
     - glew_win.patch  # [win]
 
 build:
-  number: 0
+  number: 2
   # Missing CDT packages on s390x and ppc64le
-  skip: True  # [s390x or ppc64le]
+  skip: true  # [s390x or ppc64le]
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
   missing_dso_whitelist:
-    - '**/libc.so.*'
-    - '**/libGLEW.*'
+    - "**/libc.so.*"
+    - "**/libGLEW.*"
 
 requirements:
   build:
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake
-    - make                               # [unix]
-    - ninja                              # [win]
+    - make  # [unix]
+    - ninja  # [win]
     - pkg-config
-    - m2-patch                           # [win]
-    - {{ cdt('xorg-x11-proto-devel') }}  # [linux]
-    - {{ cdt('libx11-devel') }}          # [linux]
-    - {{ cdt('libxext-devel') }}         # [linux]
-    - {{ cdt('libxrender-devel') }}      # [linux]
-    - {{ cdt('mesa-libgl-devel') }}      # [linux]
-    - {{ cdt('mesa-libegl-devel') }}     # [linux]
-    - {{ cdt('mesa-dri-drivers') }}      # [linux]
-    - {{ cdt('libxau-devel') }}          # [linux]
-    - {{ cdt('alsa-lib-devel') }}        # [linux]
-    - {{ cdt('gtk2-devel') }}            # [linux]
-    - {{ cdt('gtkmm24-devel') }}         # [linux]
-    - {{ cdt('libdrm-devel') }}          # [linux]
-    - {{ cdt('libxcomposite-devel') }}   # [linux]
-    - {{ cdt('libxcursor-devel') }}      # [linux]
-    - {{ cdt('libxi-devel') }}           # [linux]
-    - {{ cdt('libxrandr-devel') }}       # [linux]
-    - {{ cdt('pciutils-devel') }}        # [linux]
-    - {{ cdt('libxscrnsaver-devel') }}   # [linux]
-    - {{ cdt('libxtst-devel') }}         # [linux]
-    - {{ cdt('libselinux-devel') }}      # [linux]
-    - {{ cdt('libxdamage') }}            # [linux]
-    - {{ cdt('libxdamage-devel') }}      # [linux]
-    - {{ cdt('libxfixes') }}             # [linux]
-    - {{ cdt('libxfixes-devel') }}       # [linux]
-    - {{ cdt('libxxf86vm') }}            # [linux]
-    - {{ cdt('libxrandr') }}             # [linux]
-    - {{ cdt('alsa-lib') }}              # [linux]
+    - m2-patch  # [win]
+    # TODO: map CDT mesa-libegl-devel to new X11 package
+    # - { cdt('mesa-libegl-devel') }
+    # TODO: map CDT alsa-lib-devel to new X11 package
+    # - { cdt('alsa-lib-devel') }
+    # TODO: map CDT gtk2-devel to new X11 package
+    # - { cdt('gtk2-devel') }
+    # TODO: map CDT gtkmm24-devel to new X11 package
+    # - { cdt('gtkmm24-devel') }
+    # TODO: map CDT libdrm-devel to new X11 package
+    # - { cdt('libdrm-devel') }
+    # TODO: map CDT pciutils-devel to new X11 package
+    # - { cdt('pciutils-devel') }
+    # TODO: map CDT libselinux-devel to new X11 package
+    # - { cdt('libselinux-devel') }
+    # TODO: map CDT libxrandr to new X11 package
+    # - { cdt('libxrandr') }
+    # TODO: map CDT alsa-lib to new X11 package
+    # - { cdt('alsa-lib') }
   host:
-    - libglu                         # [linux]
+    - libglu  # [linux]
+    - xorg-xproto
+    - xorg-libx11
+    - xorg-libxext
+    - xorg-libxrender
+    - libgl-devel
+    - mesa-dri-drivers
+    - xorg-libxau
+    - xorg-libxcomposite
+    - xorg-libxcursor
+    - xorg-libxi
+    - xorg-libxrandr
+    - xorg-libxscrnsaver
+    - xorg-libxtst
+    - xorg-libxdamage
+    - xorg-libxdamage
+    - xorg-libxfixes
+    - xorg-libxfixes
+    - xorg-libxxf86vm
+    - libxcb
+    - xorg-libxdamage
+    - xorg-libxext
+    - xorg-libxfixes
+    - xorg-libxxf86vm
+    - libgl-devel
+    - mesa-dri-drivers
   run:
-    - libglu                         # [linux]
+    - libglu  # [linux]
 
 # Tests require visual context not present on CIs
 test:
@@ -72,28 +88,23 @@ test:
     - {{ compiler("cxx") }}
     - cmake
     - python
-    - make                           # [unix]
-    - {{ cdt('libselinux') }}        # [linux]
-    - {{ cdt('libxau') }}            # [linux]
-    - {{ cdt('libxcb') }}            # [linux]
-    - {{ cdt('libxdamage') }}        # [linux]
-    - {{ cdt('libxext') }}           # [linux]
-    - {{ cdt('libxfixes') }}         # [linux]
-    - {{ cdt('libxxf86vm') }}        # [linux]
-    - {{ cdt('mesa-libgl-devel') }}  # [linux]
-    - {{ cdt('mesa-dri-drivers') }}  # [linux]
+    - make  # [unix]
+    # TODO: map CDT libselinux to new X11 package
+    # - { cdt('libselinux') }
+    # TODO: map CDT libxau to new X11 package
+    # - { cdt('libxau') }
   commands:
-    - test -f $PREFIX/include/GL/glew.h            # [unix]
+    - test -f $PREFIX/include/GL/glew.h  # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
     - ./run_test.sh  # [unix]
-    - run_test.bat   # [win]
+    - run_test.bat  # [win]
 
 about:
   home: https://glew.sourceforge.net/
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
-  summary: "The OpenGL Extension Wrangler Library"
+  summary: The OpenGL Extension Wrangler Library
   description: |
     The OpenGL Extension Wrangler Library (GLEW) is a cross-platform open-source C/C++
     extension loading library. GLEW provides efficient run-time mechanisms for determining
@@ -105,7 +116,7 @@ about:
 extra:
   skip-lints:
     - host_section_needs_exact_pinnings  # no need to pin here for now
-    - has_run_test_and_commands          # manually invoked ... so ok
+    - has_run_test_and_commands  # manually invoked ... so ok
   recipe-maintainers:
     - dschreij
     - edisongustavo

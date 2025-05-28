@@ -20,7 +20,6 @@ build:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
   missing_dso_whitelist:
     - "**/libc.so.*"
-    - "**/libGLEW.*"
 
 requirements:
   build:
@@ -32,24 +31,8 @@ requirements:
     - pkg-config
     - m2-patch  # [win]
   host:
-    - libglu                     # [linux]
-    - xorg-xorgproto             # [linux]
-    - xorg-libx11                # [linux]
-    - xorg-libxext               # [linux]
-    - xorg-libxrender            # [linux]
     - libgl-devel                # [linux]
-    - mesalib                    # [linux]
-    - xorg-libxau                # [linux]
-    - xorg-libxcomposite         # [linux]
-    - xorg-libxcursor            # [linux]
-    - xorg-libxi                 # [linux]
-    - xorg-libxrandr             # [linux]
-    - xorg-libxscrnsaver         # [linux]
-    - xorg-libxtst               # [linux]
-    - xorg-libxdamage            # [linux]
-    - xorg-libxfixes             # [linux]
-    - xorg-libxxf86vm            # [linux]
-    - libxcb                     # [linux]
+    - xorg-libx11                # [linux]
   run:
     - libglu                     # [linux]
 
@@ -61,14 +44,15 @@ test:
     - cmake
     - python
     - make                       # [unix]
-    - xorg-libxau                # [linux]
+    - libgl-devel                # [linux]
     - libxcb                     # [linux]
+    - mesalib                    # [linux]
+    - xorg-libx11                # [linux]
+    - xorg-libxau                # [linux]
     - xorg-libxdamage            # [linux]
     - xorg-libxext               # [linux]
     - xorg-libxfixes             # [linux]
     - xorg-libxxf86vm            # [linux]
-    - libgl-devel                # [linux]
-    - mesalib                    # [linux]
   commands:
     - test -f $PREFIX/include/GL/glew.h  # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]

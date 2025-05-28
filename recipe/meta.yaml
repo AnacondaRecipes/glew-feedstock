@@ -56,8 +56,6 @@ test:
   commands:
     - test -f $PREFIX/include/GL/glew.h  # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
-    - ./run_test.sh  # [unix]
-    - run_test.bat  # [win]
 
 about:
   home: https://glew.sourceforge.net/

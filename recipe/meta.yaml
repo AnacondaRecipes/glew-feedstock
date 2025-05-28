@@ -15,9 +15,7 @@ source:
     - glew_win.patch  # [win]
 
 build:
-  number: 2
-  # Missing CDT packages on s390x and ppc64le
-  skip: true  # [s390x or ppc64le]
+  number: 1
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
   missing_dso_whitelist:
@@ -33,53 +31,27 @@ requirements:
     - ninja  # [win]
     - pkg-config
     - m2-patch  # [win]
-    # TODO: map CDT mesa-libegl-devel to new X11 package
-    # - { cdt('mesa-libegl-devel') }
-    # TODO: map CDT alsa-lib-devel to new X11 package
-    # - { cdt('alsa-lib-devel') }
-    # TODO: map CDT gtk2-devel to new X11 package
-    # - { cdt('gtk2-devel') }
-    # TODO: map CDT gtkmm24-devel to new X11 package
-    # - { cdt('gtkmm24-devel') }
-    # TODO: map CDT libdrm-devel to new X11 package
-    # - { cdt('libdrm-devel') }
-    # TODO: map CDT pciutils-devel to new X11 package
-    # - { cdt('pciutils-devel') }
-    # TODO: map CDT libselinux-devel to new X11 package
-    # - { cdt('libselinux-devel') }
-    # TODO: map CDT libxrandr to new X11 package
-    # - { cdt('libxrandr') }
-    # TODO: map CDT alsa-lib to new X11 package
-    # - { cdt('alsa-lib') }
   host:
-    - libglu  # [linux]
-    - xorg-xproto
-    - xorg-libx11
-    - xorg-libxext
-    - xorg-libxrender
-    - libgl-devel
-    - mesa-dri-drivers
-    - xorg-libxau
-    - xorg-libxcomposite
-    - xorg-libxcursor
-    - xorg-libxi
-    - xorg-libxrandr
-    - xorg-libxscrnsaver
-    - xorg-libxtst
-    - xorg-libxdamage
-    - xorg-libxdamage
-    - xorg-libxfixes
-    - xorg-libxfixes
-    - xorg-libxxf86vm
-    - libxcb
-    - xorg-libxdamage
-    - xorg-libxext
-    - xorg-libxfixes
-    - xorg-libxxf86vm
-    - libgl-devel
-    - mesa-dri-drivers
+    - libglu                     # [linux]
+    - xorg-xorgproto             # [linux]
+    - xorg-libx11                # [linux]
+    - xorg-libxext               # [linux]
+    - xorg-libxrender            # [linux]
+    - libgl-devel                # [linux]
+    - mesalib                    # [linux]
+    - xorg-libxau                # [linux]
+    - xorg-libxcomposite         # [linux]
+    - xorg-libxcursor            # [linux]
+    - xorg-libxi                 # [linux]
+    - xorg-libxrandr             # [linux]
+    - xorg-libxscrnsaver         # [linux]
+    - xorg-libxtst               # [linux]
+    - xorg-libxdamage            # [linux]
+    - xorg-libxfixes             # [linux]
+    - xorg-libxxf86vm            # [linux]
+    - libxcb                     # [linux]
   run:
-    - libglu  # [linux]
+    - libglu                     # [linux]
 
 # Tests require visual context not present on CIs
 test:
@@ -88,11 +60,15 @@ test:
     - {{ compiler("cxx") }}
     - cmake
     - python
-    - make  # [unix]
-    # TODO: map CDT libselinux to new X11 package
-    # - { cdt('libselinux') }
-    # TODO: map CDT libxau to new X11 package
-    # - { cdt('libxau') }
+    - make                       # [unix]
+    - xorg-libxau                # [linux]
+    - libxcb                     # [linux]
+    - xorg-libxdamage            # [linux]
+    - xorg-libxext               # [linux]
+    - xorg-libxfixes             # [linux]
+    - xorg-libxxf86vm            # [linux]
+    - libgl-devel                # [linux]
+    - mesalib                    # [linux]
   commands:
     - test -f $PREFIX/include/GL/glew.h  # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]

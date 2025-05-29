@@ -36,6 +36,8 @@ requirements:
     - xorg-libx11                # [linux]
     - xorg-libxmu                # [linux]
     - xorg-libxi                 # [linux]
+  run:
+    - libglu                     # [linux]
 
 # Tests require visual context not present on CIs
 test:

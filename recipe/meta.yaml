@@ -31,6 +31,7 @@ requirements:
     - pkg-config
     - m2-patch  # [win]
   host:
+    - libglu                     # [linux]
     - libgl-devel                # [linux]
     - xorg-libx11                # [linux]
 
@@ -43,6 +44,7 @@ test:
     - python
     - make                       # [unix]
     - libgl-devel                # [linux]
+    - libglu                     # [linux]
     - libxcb                     # [linux]
     - mesalib                    # [linux]
     - xorg-libx11                # [linux]

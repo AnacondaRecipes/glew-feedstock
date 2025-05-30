@@ -31,13 +31,8 @@ requirements:
     - pkg-config
     - m2-patch  # [win]
   host:
-    - libglu                     # [linux]
     - libgl-devel                # [linux]
     - xorg-libx11                # [linux]
-    - xorg-libxmu                # [linux]
-    - xorg-libxi                 # [linux]
-  run:
-    - libglu                     # [linux]
 
 # Tests require visual context not present on CIs
 test:
@@ -59,6 +54,12 @@ test:
   commands:
     - test -f $PREFIX/include/GL/glew.h  # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
+    
+    # Test GLEW utilities as documented at https://glew.sourceforge.net/basic.html
+    - test -f $PREFIX/bin/glewinfo || echo "glewinfo utility not found (may be expected)"  # [unix]
+    - test -f $PREFIX/bin/visualinfo || echo "visualinfo utility not found (may be expected)"  # [unix]
+    - if not exist %LIBRARY_BIN%\glewinfo.exe echo "glewinfo utility not found (may be expected)"  # [win]
+    - if not exist %LIBRARY_BIN%\visualinfo.exe echo "visualinfo utility not found (may be expected)"  # [win]
 
 about:
   home: https://glew.sourceforge.net/

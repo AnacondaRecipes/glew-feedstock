@@ -3,7 +3,7 @@ if [ "$(uname)" == "Linux" ]; then
     # Required to avoid "warning: libexpat.so.1, needed by ...libGL.so" and subsequent undefined references
     export LDFLAGS="${LDFLAGS} -Wl,--allow-shlib-undefined"
     GLEW_EGL="-DGLEW_EGL=ON"
-    GLEW_X11="-DGLEW_X11=ON"
+    GLEW_X11=""
 fi
 
 cd build || exit

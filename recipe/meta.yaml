@@ -20,6 +20,8 @@ build:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
   missing_dso_whitelist:
     - "**/libc.so.*"
+  ignore_run_exports:
+    - mesalib  # [linux]
 
 requirements:
   build:
@@ -33,14 +35,11 @@ requirements:
     - perl      # [unix]
     - sed       # [unix]
   host:
-    - libglu                     # [linux]
     - libgl-devel                # [linux]
     - libegl-devel               # [linux]
-    # KHR/khrplatform.h is included in mesalib and is required for EGL support
+    # KHR/khrplatform.h provided by mesalib for EGL support
     - mesalib                    # [linux]
-    - xorg-libx11                # [linux]
-    - xorg-libxmu                # [linux]
-    - xorg-libxi                 # [linux]
+    # Note: Wayland struct warnings are cosmetic - EGL works without wayland
 
 # Tests require visual context not present on CIs
 test:
@@ -53,14 +52,7 @@ test:
     - libgl-devel                # [linux]
     - libegl-devel               # [linux]
     - libglu                     # [linux]
-    - libxcb                     # [linux]
     - mesalib                    # [linux]
-    - xorg-libx11                # [linux]
-    - xorg-libxau                # [linux]
-    - xorg-libxdamage            # [linux]
-    - xorg-libxext               # [linux]
-    - xorg-libxfixes             # [linux]
-    - xorg-libxxf86vm            # [linux]
   commands:
     - test -f $PREFIX/include/GL/glew.h  # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]

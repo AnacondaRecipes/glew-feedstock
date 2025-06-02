@@ -40,7 +40,6 @@ requirements:
     - libegl-devel               # [linux]
     # KHR/khrplatform.h provided by mesalib for EGL support
     - mesalib                    # [linux]
-    # Note: Wayland struct warnings are cosmetic - EGL works without wayland
 
 # Tests require visual context not present on CIs
 test:

@@ -2,6 +2,8 @@
 if [ "$(uname)" == "Linux" ]; then
     # Required to avoid "warning: libexpat.so.1, needed by ...libGL.so" and subsequent undefined references
     export LDFLAGS="${LDFLAGS} -Wl,--allow-shlib-undefined"
+    GLEW_EGL="-DGLEW_EGL=ON"
+    GLEW_X11="-DGLEW_X11=ON"
 fi
 
 cd build || exit
@@ -11,8 +13,8 @@ cmake ${CMAKE_ARGS} \
     -DCMAKE_INSTALL_PREFIX:PATH="${PREFIX}" \
     -DCMAKE_INSTALL_LIBDIR="lib" \
     -DBUILD_UTILS=ON \
-    -DGLEW_EGL=ON \
-    -DGLEW_X11=ON \
+    "${GLEW_EGL}" \
+    "${GLEW_X11}" \
     ./cmake
 
 make -j${CPU_COUNT}

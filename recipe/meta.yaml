@@ -35,7 +35,9 @@ requirements:
   host:
     - libglu                     # [linux]
     - libgl-devel                # [linux]
-    - libegl-devel               # [linux] 
+    - libegl-devel               # [linux]
+    # KHR/khrplatform.h is included in mesalib and is required for EGL support
+    - mesalib                    # [linux]
     - xorg-libx11                # [linux]
     - xorg-libxmu                # [linux]
     - xorg-libxi                 # [linux]

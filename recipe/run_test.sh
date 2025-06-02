@@ -1,4 +1,9 @@
 #!/bin/bash
+
+# Enable error handling but allow individual commands to fail
+set -ex
+set -o pipefail
+
 echo "======================================================================"
 echo "              GLEW Package Test Suite"
 echo "======================================================================"
@@ -45,16 +50,22 @@ echo
 
 # Test 1: Build our GLEW test program
 echo "[BUILD] Building GLEW test program..."
-mkdir build
+mkdir -p build
 cd build || exit
 
+echo "[DEBUG] Running cmake configuration..."
 cmake $RECIPE_DIR/test -DCMAKE_BUILD_TYPE=Debug
+
+echo "[DEBUG] Running make..."
 make
 
 if [ $? -ne 0 ]; then
     echo "[ERROR] Failed to build test program"
+    echo "[DEBUG] Build failed - exiting"
     exit 1
 fi
+
+echo "[DEBUG] Test program built successfully"
 
 echo
 echo "======================================================================"
@@ -62,12 +73,16 @@ echo "                    Running GLEW Library Test"
 echo "======================================================================"
 
 # Run main test on all platforms since it handles headless environments gracefully
+echo "[DEBUG] About to run main GLEW test program..."
 ./main
 
 if [ $? -ne 0 ]; then
     echo "[ERROR] GLEW library test failed"
+    echo "[DEBUG] Main test program failed - exiting"
     exit 1
 fi
+
+echo "[DEBUG] Main GLEW test completed successfully"
 
 echo
 echo "======================================================================"
@@ -137,15 +152,28 @@ if command -v visualinfo &> /dev/null; then
         echo "       Testing with system display"
     fi
     
+    echo "[DEBUG] About to test visualinfo with timeout..."
+    
     # Add timeout for visualinfo since it can hang in virtual displays
+    # Use a more robust approach with explicit error handling
     if [ "$USE_XVFB" = true ]; then
+        echo "[DEBUG] Running: timeout 10s xvfb-run -a -s \"-screen 0 1024x768x24\" visualinfo"
         # Use timeout command and capture both stdout and stderr
+        set +e  # Don't exit on error for this command
         output=$(timeout 10s xvfb-run -a -s "-screen 0 1024x768x24" visualinfo 2>&1)
         exit_code=$?
+        set -e  # Re-enable exit on error
+        echo "[DEBUG] visualinfo with xvfb exit code: $exit_code"
     else
+        echo "[DEBUG] Running: timeout 10s visualinfo"
+        set +e  # Don't exit on error for this command
         output=$(timeout 10s visualinfo 2>&1)
         exit_code=$?
+        set -e  # Re-enable exit on error
+        echo "[DEBUG] visualinfo direct exit code: $exit_code"
     fi
+    
+    echo "[DEBUG] visualinfo test completed, processing results..."
     
     if [ $exit_code -eq 0 ]; then
         echo "[OK] visualinfo executed successfully!"
@@ -153,19 +181,26 @@ if command -v visualinfo &> /dev/null; then
         echo "$output" | head -8 | sed 's/^/     /'
         echo "     ... (truncated)"
     elif [ $exit_code -eq 124 ]; then
-        echo "[WARN] visualinfo timed out (common in headless/virtual environments)"
+        echo "[WARN] visualinfo timed out after 10 seconds (common in headless/virtual environments)"
         echo "       This is expected behavior and doesn't indicate a problem"
     else
         if [ "$IS_HEADLESS" = true ]; then
             echo "[WARN] visualinfo failed as expected in headless environment"
             echo "       This is normal for conda-build and CI environments"
-            echo "       Error: $(echo "$output" | head -1)"
+            echo "       Exit code: $exit_code"
+            if [ -n "$output" ]; then
+                echo "       Error: $(echo "$output" | head -1)"
+            fi
         else
             echo "[WARN] visualinfo failed"
             echo "       Exit code: $exit_code"
-            echo "       Error: $(echo "$output" | head -1)"
+            if [ -n "$output" ]; then
+                echo "       Error: $(echo "$output" | head -1)"
+            fi
         fi
     fi
+    
+    echo "[DEBUG] visualinfo test section completed successfully"
 else
     echo "[INFO] visualinfo utility not found (may be expected depending on build)"
 fi
@@ -194,3 +229,7 @@ fi
 echo
 echo "GLEW package test completed successfully!"
 echo "======================================================================"
+
+# Final debug message to confirm script completion
+echo "[DEBUG] Test script completed successfully - all tests finished"
+exit 0

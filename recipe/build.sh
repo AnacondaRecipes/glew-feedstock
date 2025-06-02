@@ -4,14 +4,16 @@ if [ "$(uname)" == "Linux" ]; then
     export LDFLAGS="${LDFLAGS} -Wl,--allow-shlib-undefined"
 fi
 
-cd build
+cd build || exit
 cmake ${CMAKE_ARGS} \
     -DCMAKE_BUILD_TYPE=Release \
     -DCMAKE_PREFIX_PATH="${PREFIX}" \
-   -DCMAKE_INSTALL_PREFIX:PATH="${PREFIX}" \
-   -DCMAKE_INSTALL_LIBDIR="lib" \
-   -DBUILD_UTILS=ON \
-   ./cmake
+    -DCMAKE_INSTALL_PREFIX:PATH="${PREFIX}" \
+    -DCMAKE_INSTALL_LIBDIR="lib" \
+    -DBUILD_UTILS=ON \
+    -DGLEW_EGL=ON \
+    -DGLEW_X11=ON \
+    ./cmake
 
 make -j${CPU_COUNT}
 make install

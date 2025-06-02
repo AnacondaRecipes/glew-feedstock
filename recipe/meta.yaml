@@ -26,14 +26,19 @@ requirements:
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake
-    - make  # [unix]
-    - ninja  # [win]
+    - make      # [unix]
+    - ninja     # [win]
     - pkg-config
     - m2-patch  # [win]
+    - perl      # [unix]
+    - sed       # [unix]
   host:
     - libglu                     # [linux]
     - libgl-devel                # [linux]
+    - libegl-devel               # [linux] 
     - xorg-libx11                # [linux]
+    - xorg-libxmu                # [linux]
+    - xorg-libxi                 # [linux]
 
 # Tests require visual context not present on CIs
 test:
@@ -44,6 +49,7 @@ test:
     - python
     - make                       # [unix]
     - libgl-devel                # [linux]
+    - libegl-devel               # [linux]
     - libglu                     # [linux]
     - libxcb                     # [linux]
     - mesalib                    # [linux]
@@ -58,8 +64,8 @@ test:
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
     
     # Test GLEW utilities as documented at https://glew.sourceforge.net/basic.html
-    - test -f $PREFIX/bin/glewinfo || echo "glewinfo utility not found (may be expected)"  # [unix]
-    - test -f $PREFIX/bin/visualinfo || echo "visualinfo utility not found (may be expected)"  # [unix]
+    - test -f $PREFIX/bin/glewinfo  # [unix]
+    - test -f $PREFIX/bin/visualinfo  # [unix]
     - if not exist %LIBRARY_BIN%\glewinfo.exe echo "glewinfo utility not found (may be expected)"  # [win]
     - if not exist %LIBRARY_BIN%\visualinfo.exe echo "visualinfo utility not found (may be expected)"  # [win]
 

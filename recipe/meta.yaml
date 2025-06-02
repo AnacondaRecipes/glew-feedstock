@@ -32,9 +32,10 @@ requirements:
     - ninja     # [win]
     - pkg-config
     - m2-patch  # [win]
-    - perl      # [unix]
+    - perl 5.*  # [unix]
     - sed       # [unix]
   host:
+    - libglu                     # [linux]
     - libgl-devel                # [linux]
     - libegl-devel               # [linux]
     # KHR/khrplatform.h provided by mesalib for EGL support

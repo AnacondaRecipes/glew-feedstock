@@ -109,7 +109,7 @@ run_with_display() {
     
     if [ "$USE_XVFB" = true ]; then
         echo "[EXEC] Running $description with virtual X11 display (xvfb-run)"
-        xvfb-run -a -s "-screen 0 1024x768x24" $cmd
+        DISPLAY=localhost:1.0 xvfb-run -a bash -c "$cmd"
     else
         echo "[EXEC] Running $description directly"
         # Suppress any inherited debug flags for clean output
@@ -187,10 +187,10 @@ if command -v visualinfo &> /dev/null; then
     # Add timeout for visualinfo since it can hang in virtual displays
     # Use a more robust approach with explicit error handling
     if [ "$USE_XVFB" = true ]; then
-        echo "[DEBUG] Running: timeout 10s xvfb-run -a -s \"-screen 0 1024x768x24\" visualinfo"
+        echo "[DEBUG] Running: timeout 10s DISPLAY=localhost:1.0 xvfb-run -a bash -c 'visualinfo'"
         # Use timeout command and capture both stdout and stderr
         set +e  # Don't exit on error for this command
-        output=$(timeout 10s xvfb-run -a -s "-screen 0 1024x768x24" visualinfo 2>&1)
+        output=$(timeout 10s bash -c "DISPLAY=localhost:1.0 xvfb-run -a bash -c 'visualinfo'" 2>&1)
         exit_code=$?
         set -e  # Re-enable exit on error
         echo "[DEBUG] visualinfo with xvfb exit code: $exit_code"

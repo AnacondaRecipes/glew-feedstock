@@ -64,7 +64,7 @@ test:
     - if not exist %LIBRARY_BIN%\visualinfo.exe echo "visualinfo utility not found (may be expected)"  # [win]
 
 about:
-  home: https://glew.sourceforge.net/
+  home: https://glew.sourceforge.net
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt

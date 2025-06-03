@@ -36,10 +36,10 @@ requirements:
     - sed       # [unix]
   host:
     - libglu                     # [linux]
-    - libgl-devel                # [linux]
-    - libegl-devel               # [linux]
+    - libgl-devel {{ libgl }}    # [linux]
+    - libegl-devel {{ libegl }}  # [linux]
     # KHR/khrplatform.h provided by mesalib for EGL support
-    - mesalib                    # [linux]
+    - mesalib 25.1               # [linux]
 
 # Tests require visual context not present on CIs
 test:

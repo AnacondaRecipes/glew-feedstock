@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.3)
+cmake_minimum_required(VERSION 3.10)
 project(use-glew CXX)
 
 find_package(GLEW REQUIRED)
 
 add_executable(main main.cpp)
-target_link_libraries(main PUBLIC GLEW::GLEW)
+target_link_libraries(main PUBLIC GLEW::GLEW) 

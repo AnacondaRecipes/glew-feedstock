@@ -3,7 +3,7 @@ upstream_sources:
   - github:
       identifier: nigels-com/glew
       use_max_tag: true
-      strip_prefix: glew-
+      prefix: glew-
       exclude_regex: (?i)^(?=.*(?:(?<=\d)rc\d*|(?<=\d)dev\d+|(?:^|[-._])(?:alpha|beta|gamma|pre|preview)(?:\d+)?|[-._]rc\d+|(?:^|[-._])dev\d+|(?:\d+\.)+\d+[ab]\d*)).+$
       from_pattern: ^v?(\d+(?:\.\d+)*.*)$
       to_pattern: \1

@@ -50,7 +50,6 @@ test:
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake
-    - python
     - make                       # [unix]
     - libgl-devel                # [linux]
     - libegl-devel               # [linux]

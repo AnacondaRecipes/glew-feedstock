@@ -28,12 +28,10 @@ requirements:
   build:
     - {{ stdlib('c') }}
     - {{ compiler("c") }}
-    #- {{ compiler("cxx") }}
     - cmake
     - make        # [unix]
     - ninja-base  # [win]
     - pkg-config
-    #- m2-patch  # [win]
     - perl 5.*    # [unix]
     - sed         # [unix]
   host:

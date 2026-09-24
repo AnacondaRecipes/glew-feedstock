@@ -1,0 +1,47 @@
+Fix linking GLEW on Windows ARM64.
+
+Upstream's CMakeLists.txt strips the default CRT for MSVC builds
+(-nodefaultlib -noentry) and restores only libvcruntime.lib and msvcrt.lib,
+and it forces an image base of 0x62AA0000 for every architecture.
+
+Neither works on Windows ARM64:
+  * there is no legacy msvcrt.lib that provides abort/calloc/free for arm64,
+    so link.exe fails with LNK2019 unresolved externals from
+    libvcruntime.lib(per_thread_data.obj) and fatal error LNK1120.
+  * ARM64 images cannot have a base address below 4GB, so the forced base
+    address fails with fatal error LNK1355.
+
+Keep the default CRT on ARM64 and only set the base address on x86. Matches
+upstream (nigels-com/glew#384) and microsoft/vcpkg ports/glew
+(fix-LNK2019.patch).
+
+--- a/build/cmake/CMakeLists.txt
++++ b/build/cmake/CMakeLists.txt
+@@ -115,14 +115,22 @@
+   # add options from visual studio project
+   target_compile_definitions (glew PRIVATE "GLEW_BUILD;VC_EXTRALEAN")
+   target_compile_definitions (glew_s PRIVATE "GLEW_STATIC;VC_EXTRALEAN")
+-  target_link_libraries (glew LINK_PRIVATE -BASE:0x62AA0000)
++  if(CMAKE_SYSTEM_PROCESSOR MATCHES "^(i?86|x86|x86_32)$")
++    target_link_libraries (glew LINK_PRIVATE -BASE:0x62AA0000)
++  endif()
+   # kill security checks which are dependent on stdlib
+   target_compile_options (glew PRIVATE -GS-)
+   target_compile_options (glew_s PRIVATE -GS-)
+-  # remove stdlib dependency
+-  target_link_libraries (glew LINK_PRIVATE -nodefaultlib -noentry)
+-  target_link_libraries (glew LINK_PRIVATE libvcruntime.lib)
+-  target_link_libraries (glew LINK_PRIVATE msvcrt.lib )
++  if(CMAKE_SYSTEM_PROCESSOR MATCHES "ARM64|arm64|aarch64")
++    # ARM64 has no legacy msvcrt.lib to resolve the CRT symbols referenced by
++    # libvcruntime.lib, so link the default CRT instead of stripping it.
++    # Also allows the linker to choose a valid (>=4GB) image base.
++  else()
++    # remove stdlib dependency
++    target_link_libraries (glew LINK_PRIVATE -nodefaultlib -noentry)
++    target_link_libraries (glew LINK_PRIVATE libvcruntime.lib)
++    target_link_libraries (glew LINK_PRIVATE msvcrt.lib )
++  endif()
+   string(REGEX REPLACE "/RTC(su|[1su])" "" CMAKE_C_FLAGS_DEBUG ${CMAKE_C_FLAGS_DEBUG})
+ elseif (WIN32 AND ((CMAKE_C_COMPILER_ID MATCHES "GNU") OR (CMAKE_C_COMPILER_ID MATCHES "Clang")))
+   # remove stdlib dependency on windows with GCC and Clang (for similar reasons

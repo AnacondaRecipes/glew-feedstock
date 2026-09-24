@@ -14,6 +14,9 @@ source:
   patches:  # [win]
     # turn on experimental to allow GL 3.x+ (required on modern Windows)
     - glew_win.patch  # [win]
+    # keep the default CRT and only set an image base on x86, fixes LNK2019 /
+    # LNK1355 when building for Windows ARM64
+    - win_arm64_link.patch  # [win]
 
 build:
   number: {{ build_number }}

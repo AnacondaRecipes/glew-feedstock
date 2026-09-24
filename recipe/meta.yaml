@@ -1,5 +1,6 @@
 {% set name = "glew" %}
 {% set version = "2.2.0" %}
+{% set build_number = "2" %}
 {% set dev_url = "https://github.com/nigels-com/glew" %}
 
 package:
@@ -15,7 +16,7 @@ source:
     - glew_win.patch  # [win]
 
 build:
-  number: 1
+  number: {{ build_number }}
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
   missing_dso_whitelist:
@@ -25,15 +26,16 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler("c") }}
     - {{ compiler("cxx") }}
     - cmake
-    - make      # [unix]
-    - ninja     # [win]
+    - make        # [unix]
+    - ninja-base  # [win]
     - pkg-config
-    - m2-patch  # [win]
-    - perl 5.*  # [unix]
-    - sed       # [unix]
+    #- m2-patch  # [win]
+    - perl 5.*    # [unix]
+    - sed         # [unix]
   host:
     - libglu                     # [linux]
     - libgl-devel {{ libgl }}    # [linux]
@@ -56,7 +58,7 @@ test:
   commands:
     - test -f $PREFIX/include/GL/glew.h  # [unix]
     - if not exist %LIBRARY_INC%\GL\glew.h exit 1  # [win]
-    
+
     # Test GLEW utilities as documented at https://glew.sourceforge.net/basic.html
     - test -f $PREFIX/bin/glewinfo  # [unix]
     - test -f $PREFIX/bin/visualinfo  # [unix]

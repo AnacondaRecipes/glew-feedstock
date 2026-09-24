@@ -28,7 +28,7 @@ requirements:
   build:
     - {{ stdlib('c') }}
     - {{ compiler("c") }}
-    - {{ compiler("cxx") }}
+    #- {{ compiler("cxx") }}
     - cmake
     - make        # [unix]
     - ninja-base  # [win]

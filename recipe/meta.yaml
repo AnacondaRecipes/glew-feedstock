@@ -47,7 +47,7 @@ requirements:
 test:
   requires:
     - {{ compiler("c") }}
-    #- {{ compiler("cxx") }}
+    - {{ compiler("cxx") }}
     - cmake
     - python
     - make                       # [unix]

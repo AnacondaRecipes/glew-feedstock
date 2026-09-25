@@ -13,6 +13,7 @@ cmake ${CMAKE_ARGS} \
     -DCMAKE_INSTALL_LIBDIR="lib" \
     -DBUILD_UTILS=ON \
     "${GLEW_EGL}" \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
     ./cmake
 
 make -j${CPU_COUNT}

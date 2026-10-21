@@ -40,7 +40,7 @@ requirements:
     - libgl-devel {{ libgl }}    # [linux]
     - libegl-devel {{ libegl }}  # [linux]
     # KHR/khrplatform.h provided by mesalib for EGL support
-    - mesalib 25.1               # [linux]
+    - mesalib {{ mesalib }}               # [linux]
 
 # Tests require visual context not present on CIs
 test:

@@ -1,7 +1,5 @@
 {% set name = "glew" %}
 {% set version = "2.3.1" %}
-{% set build_number = "0" %}
-{% set dev_url = "https://github.com/nigels-com/glew" %}
 
 package:
   name: {{ name|lower }}
@@ -9,7 +7,7 @@ package:
 
 source:
   fn: {{ name }}-{{ version }}.tgz
-  url: {{ dev_url }}/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tgz
+  url: https://github.com/nigels-com/glew/releases/download/{{ name }}-{{ version }}/{{ name }}-{{ version }}.tgz
   sha256: b64790f94b926acd7e8f84c5d6000a86cb43967bd1e688b03089079799c9e889
   patches:  # [win]
     # turn on experimental to allow GL 3.x+ (required on modern Windows)
@@ -19,7 +17,7 @@ source:
     - win_arm64_link.patch  # [win]
 
 build:
-  number: {{ build_number }}
+  number: 0
   run_exports:
     - {{ pin_subpackage('glew', max_pin='x.x') }}
   missing_dso_whitelist:
@@ -77,7 +75,7 @@ about:
     which OpenGL extensions are supported on the target platform. OpenGL core and extension
     functionality is exposed in a single header file.
   doc_url: https://glew.sourceforge.net/basic.html
-  dev_url: {{ dev_url }}
+  dev_url: https://github.com/nigels-com/glew
 
 extra:
   skip-lints:

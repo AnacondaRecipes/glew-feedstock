@@ -2,7 +2,7 @@ Index: glew-2.2.0/src/glew.c
 ===================================================================
 --- glew-2.2.0.orig/src/glew.c
 +++ glew-2.2.0/src/glew.c
-@@ -23098,7 +23098,7 @@ const GLubyte * GLEWAPIENTRY glewGetStri
+@@ -23743,7 +23743,7 @@ const GLubyte * GLEWAPIENTRY glewGetString (GLenum name)
  
  /* ------------------------------------------------------------------------ */
  
